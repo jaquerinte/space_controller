@@ -1,11 +1,71 @@
-# Caravel User Project
+# **Space Controller**
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![UPRJ_CI](https://github.com/efabless/caravel_project_example/actions/workflows/user_project_ci.yml/badge.svg)](https://github.com/efabless/caravel_project_example/actions/workflows/user_project_ci.yml) [![Caravel Build](https://github.com/efabless/caravel_project_example/actions/workflows/caravel_build.yml/badge.svg)](https://github.com/efabless/caravel_project_example/actions/workflows/caravel_build.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/MIT) [![Caravel Build](https://github.com/efabless/caravel_project_example/actions/workflows/caravel_build.yml/badge.svg)](https://github.com/efabless/caravel_project_example/actions/workflows/caravel_build.yml)
 
-| :exclamation: Important Note            |
-|-----------------------------------------|
+## **Authors**
+- Ivan Rodriguez-Ferrandez (UPC¹-BSC²)
+- Alvaro Jover-Alvarez (UPC¹-BSC²)
+- Leonidas Kosmidis (BSC²-UPC¹)
+- David Steenari (ESA³)
+<br/>
+¹ Universitat Politècnica de Catalunya (UPC) <br/>
+² Barcelona Supercomputing Center (BSC) <br/>
+³ European Space Agency (ESA)
 
-## Please fill in your project documentation in this README.md file 
+
+<!-- ![](readme_data/space_shuttle_patch_crop.png) -->
 
 
-Refer to [README](docs/source/index.rst) for this sample project documentation. 
+
+### **Main Version of the chip: 2.0V EXTENDED**  
+
+<br/>
+
+## **Change Log**
+
+- Version 1.0V:
+  - TODO 
+
+## **Chip Layout**
+<!--![](readme_data/Selection_005.png)-->
+
+## **Description**
+
+## **How To Use The Chip**
+
+## **Triple Redundancy Implementation**
+
+## **Block Description**
+
+## **Module Ports**:
+- **Input Ports**
+- **Output Ports**
+
+## **Caravel Connections**
+
+### **GPIO Connections**
+
+### **Logic Analyzer Probes**
+- Input probes: 
+  
+- Output probes:
+
+### **Wishbone Connection**
+
+
+### **User Maskable Interrupt Signals**
+
+
+
+## **Description of the Modules**
+
+### **Module List**
+
+
+## **Wishbone Description**
+
+ ### **Memory Map**
+
+ ### **Software Example**
+
+## **Available Tests**
