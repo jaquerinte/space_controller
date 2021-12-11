@@ -23,9 +23,10 @@
 module status_sender_data #
 (
     parameter WORD_SIZE = 32,
-    parameter INPUT_DATA_SIZE = 40,
+    parameter INPUT_DATA_SIZE = 52,
     parameter SIZE_WORD = 3,
-    parameter STATUS_SIGNALS = 4,
+    parameter STATUS_SIGNALS = 6,
+    parameter STATUS_SIGNALS_UART = 4,
     parameter DATA_WIDTH = 8,
     parameter SYMBOL_WITH = 4,
     parameter [8:0]ESCAPE_CHARCTER = 8'h0D,
@@ -43,7 +44,7 @@ module status_sender_data #
     output reg [INPUT_DATA_SIZE-1:0] control_value,
     output reg valid_control_value,
     output busy,
-    output [STATUS_SIGNALS-1:0]control_uart,
+    output [STATUS_SIGNALS_UART-1:0]control_uart,
     output txd
     );
 
