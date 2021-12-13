@@ -63,18 +63,32 @@ The sended data is stored in a shift register, so in order to confirm that the c
 
 
 #### **IWrite instructions**
-| Type  | Description | OP Code [51:48] | Primary Register [47:43] | Auxillary [42:0] |
-|---|---|---|---|---|
-| IWrite | Write a logic 1 in the selected register <br>and is maintained Auxillary number of cycles | 0000 | register | cycles |
-| IWrite | Waits 1 Second and writes a logic 1 in <br>the selected selected register and is <br>maintained Auxillary number of cycles | 0001 | register | cycles |
-| IWrite | Waits Auxillary number of cycles and <br>writes a logic 1 in the selected selected <br>register and is maintained Auxillary number of cycles | 0010 | register | cycles |
+| Type  | Description | OP Code [51:49] | Primary Register [48:44] | Auxillary [43:0] |
+|--|---|---|---|---|
+| IWrite | Write a logic 1 in the selected register <br>and is maintained auxillary number of cycles | 000 | register | cycles |
+| IWrite | Waits 1 Second and writes a logic 1 in <br>the selected selected register and is <br>maintained auxillary number of cycles | 001 | register | cycles |
+
+<br><br>
 
 #### **IRead instructions**
-| Type  | Description | OP Code [51:48] | Primary Register [47:43] | Auxillary [42:0] |
+| Type  | Description | OP Code [51:49] | Primary Register [48:44] | Auxillary [43:0] |
 |---|---|---|---|---|
-| IRead | Reads the logic value in the selected register <br>and the read is delayed by Auxilar number of cycles | 1000 | register | cycles |
-| IRead | Reads delayed by 1 Second and reports the a <br>logic value in the selected selected register | 1001 | register | Not/use |
+| IRead | Reads the logic value in the selected register <br>and the read is delayed by auxiliary number of cycles | 100 | register | cycles |
 
+<br><br>
+
+#### **BWrite instructions**
+| Type  | Description | OP Code [51:49] | Primary Register [48:44] | Auxillary [43:0] |
+|---|---|---|---|---|
+| BWrite | Writes 8 bit value during one clock cycle <br>The register and value are in the auxiliary part | 011 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8] not use<br> [7:0] value for the registers|
+| BWrite | Waits 1 second and writes 8 bit value during one second <br>The register and value are in the auxiliary part | 111 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8] not use<br> [7:0] value for the registers|
+
+<br><br>
+
+#### **BRead instructions**
+| Type  | Description | OP Code [51:49] | Primary Register [48:44] | Auxillary [43:0] |
+|---|---|---|---|---|
+| BRrite | Reads  8 bit value during one clock cycle <br>The register and value are in the auxiliary part | 011 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8:0] not use|
 ## **Triple Redundancy Implementation**
 
 ## **Block Description**
