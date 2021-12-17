@@ -22,7 +22,7 @@
 
 module io_module #
 (
-    parameter SIZE_WORD = 5,
+    parameter SIZE_WORD = 3,
     parameter WORD_SIZE = 32,
     parameter INSTRUCTION_SIZE = 3,
     parameter IO_OUTPUT_SIZE = 8,
@@ -34,9 +34,9 @@ module io_module #
 (
     input clk,
     input rst,
-    (* mark_debug = "true" *)input [INSTRUCTION_SIZE-1:0] instrucction,
-    (* mark_debug = "true" *)input [SIZE_WORD-1:0] register,
-    (* mark_debug = "true" *)input [AUXILIAR_SIZE-1:0] auxiliar_register,
+    input [INSTRUCTION_SIZE-1:0] instrucction,
+    input [SIZE_WORD-1:0] register,
+    input [AUXILIAR_SIZE-1:0] auxiliar_register,
     input valid_instrucction,
     input [INPUTS-1:0] input_io,
     output busy,
@@ -45,14 +45,14 @@ module io_module #
     output [OUTPUTS-1:0] output_io
 );
         reg busy;
-        (* mark_debug = "true" *) reg [IO_OUTPUT_SIZE-1:0] result_input_io;
-        (* mark_debug = "true" *) reg [OUTPUTS-1:0]output_io;
-        (* mark_debug = "true" *) reg valid_io;
-        (* mark_debug = "true" *) reg [AUXILIAR_SIZE-1:0] curent_clock;
-        (* mark_debug = "true" *) reg delay_maintained;
+        reg [IO_OUTPUT_SIZE-1:0] result_input_io;
+        reg [OUTPUTS-1:0]output_io;
+        reg valid_io;
+        reg [AUXILIAR_SIZE-1:0] curent_clock;
+        reg delay_maintained;
 
 
-    always @(posedge clk or posedge rst) begin
+    always @(posedge clk) begin
 
         if (rst) begin
             busy <= 0;

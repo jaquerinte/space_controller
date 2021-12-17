@@ -63,22 +63,22 @@ module logic_control#
     reg [WORD_SIZE-1:0] data_4 = {8'h0D, 8'h0A, 8'h20, 8'h31};
 
     // status of the value to send
-    (* mark_debug = "true" *) reg valid_data;
+    reg valid_data;
     // fix size for now
     reg [SIZE_WORD-1:0] size_line = 3'h4; 
 
     // send_data_register
-    (* mark_debug = "true" *) reg [WORD_SIZE-1:0] send_data_register;
+    reg [WORD_SIZE-1:0] send_data_register;
 
     // status of the IO module
-    (* mark_debug = "true" *) reg [1:0]send_petition_to_io;
+    reg [1:0]send_petition_to_io;
     reg valid_instrucction;
     reg [INSTRUCTION_SIZE-1:0] instrucction;
     reg [SIZE_WORD_REGISTER-1:0] register;
     reg [AUXILIAR_SIZE-1:0] auxiliar_register;
     
     
-    always @(posedge clk or posedge rst) begin
+    always @(posedge clk) begin
          if (rst) begin
             size_line <= 3'h4;
             send_data_register <= 0;

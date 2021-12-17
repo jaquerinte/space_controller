@@ -52,21 +52,21 @@ module status_sender_data #
     //reg [15:0] preescalar_data_rate = CLOCK_SPEED/(BAUD_RATE*DATA_WIDTH);
 
     // create register for the input and output of the data
-    (* mark_debug = "true" *) reg [DATA_WIDTH-1:0] uart_tx_axis_tdata;
-    (* mark_debug = "true" *) reg uart_tx_axis_tvalid;
-    (* mark_debug = "true" *) wire uart_tx_axis_tready;
+    reg [DATA_WIDTH-1:0] uart_tx_axis_tdata;
+    reg uart_tx_axis_tvalid;
+    wire uart_tx_axis_tready;
 
-    //(* mark_debug = "true" *) 
-    (* mark_debug = "true" *) wire [DATA_WIDTH-1:0] uart_rx_axis_tdata;
-    (* mark_debug = "true" *) wire uart_rx_axis_tvalid;
-    (* mark_debug = "true" *) reg uart_rx_axis_tready;
+    //
+    wire [DATA_WIDTH-1:0] uart_rx_axis_tdata;
+    wire uart_rx_axis_tvalid;
+    reg uart_rx_axis_tready;
 
     // create the register for control to remember last value send
-    (* mark_debug = "true" *) reg [INPUT_DATA_SIZE-1:0] output_value;
+    reg [INPUT_DATA_SIZE-1:0] output_value;
     // create the register for store the data to be send
     reg [WORD_SIZE-1:0] send_data_register;
     // register to now if is sending data
-    (* mark_debug = "true" *) reg sending_data;
+    reg sending_data;
     // regsiter to store the actual size
     reg [SIZE_WORD-1:0] data_size_actual;
 
@@ -99,7 +99,7 @@ module status_sender_data #
     );
 
 
-    always @(posedge clk or posedge rst) begin
+    always @(posedge clk) begin
         if (rst) begin
             uart_tx_axis_tdata <= 0;
             uart_rx_axis_tready <= 0;

@@ -25,4 +25,13 @@
 `else
     `include "user_project_wrapper.v"
     `include "user_proj_example.v"
+    `include "controller/top_module.v"
+    `include "controller/status_sender_data.v"
+    `include "controller/logic_control.v"
+    `include "controller/control_module.v"
+    `include "controller/io_module.v"
+    `include "controller/UART_SERVER/uart.v"
+    `include "controller/UART_SERVER/uart_rx.v"
+    `include "controller/UART_SERVER/uart_tx.v"
+    `include "controller/pmu.v"
 `endif

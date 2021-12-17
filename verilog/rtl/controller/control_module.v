@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+`default_nettype none
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -51,19 +52,19 @@ module control_module#
     
    
     // connection wires
-    (* mark_debug = "true" *) wire busy_io_module;
-    (* mark_debug = "true" *) wire busy_sender_data;
-    (* mark_debug = "true" *) wire [INSTRUCTION_SIZE-1:0] instrucction;
-    (* mark_debug = "true" *) wire [SIZE_WORD_REGISTER-1:0] register;
-    (* mark_debug = "true" *) wire [AUXILIAR_SIZE-1:0] auxiliar_register;
-    (* mark_debug = "true" *) wire valid_instrucction;
-    (* mark_debug = "true" *) wire valid_control_value;
+    wire busy_io_module;
+    wire busy_sender_data;
+    wire [INSTRUCTION_SIZE-1:0] instrucction;
+    wire [SIZE_WORD_REGISTER-1:0] register;
+    wire [AUXILIAR_SIZE-1:0] auxiliar_register;
+    wire valid_instrucction;
+    wire valid_control_value;
     // control value
-    (* mark_debug = "true" *) wire [INPUT_DATA_SIZE-1:0] control_value;
-    (* mark_debug = "true" *) wire [WORD_SIZE-1:0] send_data_register;
-    (* mark_debug = "true" *) wire valid_data;
-    (* mark_debug = "true" *) wire [SIZE_WORD-1:0] size_line;
-    (* mark_debug = "true" *) wire [IO_OUTPUT_SIZE-1:0] result_input_io;
+    wire [INPUT_DATA_SIZE-1:0] control_value;
+    wire [WORD_SIZE-1:0] send_data_register;
+    wire valid_data;
+    wire [SIZE_WORD-1:0] size_line;
+    wire [IO_OUTPUT_SIZE-1:0] result_input_io;
  
     // assigments 
     assign staus_control_module[4] = busy_io_module;
@@ -139,3 +140,4 @@ module control_module#
     );
  
 endmodule
+`default_nettype wire

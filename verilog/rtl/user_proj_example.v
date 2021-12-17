@@ -36,7 +36,15 @@
  */
 
 module user_proj_example #(
-    parameter BITS = 32
+        parameter WORD_SIZE = 32,
+        parameter SIZE_WORD = 3,
+        parameter INPUT_DATA_SIZE = 52,
+        parameter STATUS_SIGNALS = 6,
+        parameter DATA_WIDTH = 8,
+        parameter BAUD_RATE = 115200,
+        parameter CLOCK_SPEED = 100000000,
+        parameter OUTPUTS = 32,
+        parameter INPUTS = 32
 )(
 `ifdef USE_POWER_PINS
     inout vccd1,	// User area 1 1.8V supply
@@ -70,14 +78,15 @@ module user_proj_example #(
 );
     wire clk;
     wire rst;
-
+    wire [15:0] io_port;
+    wire rtx;
+    wire trx;
     wire [`MPRJ_IO_PADS-1:0] io_in;
     wire [`MPRJ_IO_PADS-1:0] io_out;
     wire [`MPRJ_IO_PADS-1:0] io_oeb;
 
     wire [31:0] rdata; 
     wire [31:0] wdata;
-    wire [BITS-1:0] count;
 
     wire valid;
     wire [3:0] wstrb;
@@ -90,76 +99,48 @@ module user_proj_example #(
     assign wdata = wbs_dat_i;
 
     // IO
-    assign io_out = count;
+    assign io_out = {io_port,rtx,trx,20'b0};
     assign io_oeb = {(`MPRJ_IO_PADS-1){rst}};
 
     // IRQ
-    assign irq = 3'b000;	// Unused
+    //assign irq = 3'b000;	// Unused
 
     // LA
-    assign la_data_out = {{(127-BITS){1'b0}}, count};
+    //assign la_data_out = {{(127-BITS){1'b0}}, count};
     // Assuming LA probes [63:32] are for controlling the count register  
-    assign la_write = ~la_oenb[63:32] & ~{BITS{valid}};
+    //assign la_write = ~la_oenb[63:32] & ~{BITS{valid}};
     // Assuming LA probes [65:64] are for controlling the count clk & reset  
-    assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
-    assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
+    assign clk = wb_clk_i;
+    assign rst = wb_rst_i;
+    //assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
+    //assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
-    counter #(
-        .BITS(BITS)
-    ) counter(
-        .clk(clk),
-        .reset(rst),
-        .ready(wbs_ack_o),
-        .valid(valid),
-        .rdata(rdata),
-        .wdata(wbs_dat_i),
-        .wstrb(wstrb),
-        .la_write(la_write),
-        .la_input(la_data_in[63:32]),
-        .count(count)
-    );
-
-endmodule
-
-module counter #(
-    parameter BITS = 32
-)(
-    input clk,
-    input reset,
-    input valid,
-    input [3:0] wstrb,
-    input [BITS-1:0] wdata,
-    input [BITS-1:0] la_write,
-    input [BITS-1:0] la_input,
-    output ready,
-    output [BITS-1:0] rdata,
-    output [BITS-1:0] count
-);
-    reg ready;
-    reg [BITS-1:0] count;
-    reg [BITS-1:0] rdata;
-
-    always @(posedge clk) begin
-        if (reset) begin
-            count <= 0;
-            ready <= 0;
-        end else begin
-            ready <= 1'b0;
-            if (~|la_write) begin
-                count <= count + 1;
-            end
-            if (valid && !ready) begin
-                ready <= 1'b1;
-                rdata <= count;
-                if (wstrb[0]) count[7:0]   <= wdata[7:0];
-                if (wstrb[1]) count[15:8]  <= wdata[15:8];
-                if (wstrb[2]) count[23:16] <= wdata[23:16];
-                if (wstrb[3]) count[31:24] <= wdata[31:24];
-            end else if (|la_write) begin
-                count <= la_write & la_input;
-            end
-        end
-    end
+   main_module #(
+        .WORD_SIZE (WORD_SIZE),
+        .SIZE_WORD (SIZE_WORD),
+        .INPUT_DATA_SIZE (INPUT_DATA_SIZE),
+        .STATUS_SIGNALS (STATUS_SIGNALS),
+        .DATA_WIDTH (DATA_WIDTH),
+        .BAUD_RATE (BAUD_RATE),
+        .CLOCK_SPEED (CLOCK_SPEED),
+        .OUTPUTS (OUTPUTS),
+        .INPUTS (INPUTS)
+   )
+   main_module(
+       .clk(clk),
+       .rtx(rtx),
+       .rst(rst),
+       .input_io_ports({la_data_in[15:0],io_port}),
+       .output_io_ports({la_data_out[15:0],io_port}),
+       .trx(trx),
+       .wstrb_i(wstrb),
+       .wdata_i(wdata),
+       .wbs_adr_i(wbs_adr_i),
+       .valid_i(valid),
+       .wbs_we_i(wbs_we_i),
+       .ready_o(wbs_ack_o),
+       .rdata_o(rdata)
+   );
 
 endmodule
 `default_nettype wire
