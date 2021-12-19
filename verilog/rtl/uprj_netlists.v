@@ -25,7 +25,7 @@
 `else
     `include "user_project_wrapper.v"
     `include "user_proj_example.v"
-    `include "controller/top_module.v"
+    `include "controller/main_module.v"
     `include "controller/status_sender_data.v"
     `include "controller/logic_control.v"
     `include "controller/control_module.v"

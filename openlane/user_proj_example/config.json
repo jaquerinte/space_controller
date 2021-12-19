@@ -2,7 +2,7 @@
     "PDK"                      : "sky130A",
     "STD_CELL_LIBRARY"         : "sky130_fd_sc_hd",
     "CARAVEL_ROOT"             : "../../caravel",
-    "CLOCK_NET"                : "main_module.clk",
+    "CLOCK_NET"                : "main_module_ins.wb_clk_i",
     "CLOCK_PERIOD"             : "10",
     "CLOCK_PORT"               : "wb_clk_i",
     "DESIGN_IS_CORE"           : "0",

@@ -33,7 +33,7 @@ module control_module#
     parameter OUTPUTS = 32,
     parameter INPUTS = 32,
     parameter INSTRUCTION_SIZE = 3,
-    parameter SIZE_WORD_REGISTER = 5
+    parameter SIZE_WORD_REGISTER = 3
 
 )
 (

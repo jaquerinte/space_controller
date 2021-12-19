@@ -62,6 +62,8 @@ module user_proj_example #(
     input [31:0] wbs_adr_i,
     output wbs_ack_o,
     output [31:0] wbs_dat_o,
+    // seconday clk
+    input user_clock2,
 
     // Logic Analyzer Signals
     input  [127:0] la_data_in,
@@ -72,13 +74,25 @@ module user_proj_example #(
     input  [`MPRJ_IO_PADS-1:0] io_in,
     output [`MPRJ_IO_PADS-1:0] io_out,
     output [`MPRJ_IO_PADS-1:0] io_oeb,
+    /* 
+    *---------------------------------------------------------------------
+    * If the chip is configured for output with the oeb control
+    * register = 1, then the oeb line is controlled by the additional
+    * signal from the management SoC.  If the oeb control register = 0,
+    * then the output is disabled completely.  The "io" line is input
+    * only in this module.
+    *
+    *---------------------------------------------------------------------
+    */
 
     // IRQ
     output [2:0] irq
 );
     wire clk;
     wire rst;
-    wire [15:0] io_port;
+    wire [15:0] io_port_out;
+    wire [15:0] io_port_in;
+    wire [15:0] la_out_value;
     wire rtx;
     wire trx;
     wire [`MPRJ_IO_PADS-1:0] io_in;
@@ -99,16 +113,18 @@ module user_proj_example #(
     assign wdata = wbs_dat_i;
 
     // IO
-    assign io_out = {io_port,rtx,trx,20'b0};
-    assign io_oeb = {(`MPRJ_IO_PADS-1){rst}};
+    // IO MODE IO port connected to the 16 last 
+    assign io_out = {io_port_out,1'bx,trx,20'b0};
+    assign io_in = {io_port_in,rtx,1'bx,20'b0};
+    assign io_oeb = {(`MPRJ_IO_PADS-1){1'b0}};
 
     // IRQ
     //assign irq = 3'b000;	// Unused
 
     // LA
-    //assign la_data_out = {{(127-BITS){1'b0}}, count};
+    assign la_data_out = {{(127-15){1'b0}}, la_out_value};
     // Assuming LA probes [63:32] are for controlling the count register  
-    //assign la_write = ~la_oenb[63:32] & ~{BITS{valid}};
+    //assign la_write = ~la_oenb[63:32] & ~{WORD_SIZE{valid}};
     // Assuming LA probes [65:64] are for controlling the count clk & reset  
     assign clk = wb_clk_i;
     assign rst = wb_rst_i;
@@ -130,8 +146,8 @@ module user_proj_example #(
        .clk(clk),
        .rtx(rtx),
        .rst(rst),
-       .input_io_ports({la_data_in[15:0],io_port}),
-       .output_io_ports({la_data_out[15:0],io_port}),
+       .input_io_ports({la_data_in[15:0],io_port_in}),
+       .output_io_ports({la_out_value,io_port_out}),
        .trx(trx),
        .wstrb_i(wstrb),
        .wdata_i(wdata),
@@ -143,4 +159,5 @@ module user_proj_example #(
    );
 
 endmodule
+
 `default_nettype wire

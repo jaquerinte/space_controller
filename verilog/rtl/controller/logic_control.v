@@ -30,7 +30,7 @@ module logic_control#
     parameter STATUS_SIGNALS = 6,
     parameter DATA_WIDTH = 8,
     parameter INSTRUCTION_SIZE = 3,
-    parameter SIZE_WORD_REGISTER = 5,
+    parameter SIZE_WORD_REGISTER = 3,
     parameter INSTRUCCION_INPUT_START = INPUT_DATA_SIZE - 1 , //51 
     parameter INSTRUCCION_INPUT_END = INSTRUCCION_INPUT_START - (INSTRUCTION_SIZE - 1), // 49
     parameter REGISTER_INPUT_START = INSTRUCCION_INPUT_END -1, // 48 

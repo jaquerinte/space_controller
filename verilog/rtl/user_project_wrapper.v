@@ -115,7 +115,10 @@ user_proj_example mprj (
     .io_oeb(io_oeb),
 
     // IRQ
-    .irq(user_irq)
+    .irq(user_irq),
+
+    // independent clk
+    .user_clock2(user_clock2)
 );
 
 endmodule	// user_project_wrapper
