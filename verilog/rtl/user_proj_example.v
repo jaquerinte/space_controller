@@ -114,22 +114,22 @@ module user_proj_example #(
 
     // IO
     // IO MODE IO port connected to the 16 last 
-    assign io_out = {io_port_out,1'bx,trx,20'b0};
-    assign io_in = {io_port_in,rtx,1'bx,20'b0};
+    assign io_out = {12'b0,io_port_out,1'bx,trx,8'b0};
+    assign io_in = {12'b0,io_port_in,rtx,1'bx,8'b0};
     assign io_oeb = {(`MPRJ_IO_PADS-1){1'b0}};
 
     // IRQ
-    //assign irq = 3'b000;	// Unused
+    assign irq = 3'b000;	// Unused
 
     // LA
     assign la_data_out = {{(127-15){1'b0}}, la_out_value};
     // Assuming LA probes [63:32] are for controlling the count register  
     //assign la_write = ~la_oenb[63:32] & ~{WORD_SIZE{valid}};
     // Assuming LA probes [65:64] are for controlling the count clk & reset  
-    assign clk = wb_clk_i;
-    assign rst = wb_rst_i;
-    //assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
-    //assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
+    //assign clk = wb_clk_i;
+    //assign rst = wb_rst_i;
+    assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
+    assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
    main_module #(
         .WORD_SIZE (WORD_SIZE),

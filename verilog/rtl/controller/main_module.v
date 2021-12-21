@@ -117,6 +117,13 @@ module main_module #
     assign xor_reduce_2_out_io = |xor_2_out_io;
     assign xor_reduce_3_out_io = |xor_3_out_io;
     // end output_io
+    wire ready_pmu; // wire to connect to the PMU
+    wire ready_pmu_backup; // wire to connect to the PMU
+    wire [WORD_SIZE - 1 : 0] rdata_pmu; // wire that carries the data form de pmu 
+    wire [WORD_SIZE - 1 : 0] rdata_pmu_backup; // wire that carries the data form de pmu backup
+
+    assign ready_o = ready_pmu | ready_pmu_backup | ready_pmu_backup;
+    assign rdata_o = ready_pmu ? rdata_pmu : rdata_pmu_backup;
     
     control_module #(
         .WORD_SIZE(WORD_SIZE),
@@ -184,18 +191,41 @@ module main_module #
     PMU#(
         .WORD_SIZE(WORD_SIZE),
         .OUTPUTS(OUTPUTS),
-        .INPUTS(INPUTS)
+        .INPUTS(INPUTS),
+        .ADDRBASE (20'h3000_0)
     )
     PMU_inst_1(
         .clk(clk),
         .rst(rst),
         .wstrb_i(wstrb_i),
         .wdata_i(wdata_i),
+        .output_io_error({xor_reduce_3_out_io,xor_reduce_2_out_io,xor_reduce_1_out_io}),
+        .trx_error({xor_reduce_3_trx,xor_reduce_2_trx, xor_reduce_1_trx}),
         .wbs_adr_i(wbs_adr_i),
         .valid_i(valid_i),
         .wbs_we_i(wbs_we_i),
-        .ready_o(ready_o),
-        .rdata_o(rdata_o)
+        .ready_o(ready_pmu),
+        .rdata_o(rdata_pmu)
+    );
+
+    PMU#(
+        .WORD_SIZE(WORD_SIZE),
+        .OUTPUTS(OUTPUTS),
+        .INPUTS(INPUTS),
+        .ADDRBASE (20'h3001_0)
+    )
+    PMU_inst_2(
+        .clk(clk),
+        .rst(rst),
+        .wstrb_i(wstrb_i),
+        .output_io_error({xor_reduce_3_out_io,xor_reduce_2_out_io,xor_reduce_1_out_io}),
+        .trx_error({xor_reduce_3_trx,xor_reduce_2_trx, xor_reduce_1_trx}),
+        .wdata_i(wdata_i),
+        .wbs_adr_i(wbs_adr_i),
+        .valid_i(valid_i),
+        .wbs_we_i(wbs_we_i),
+        .ready_o(ready_pmu_backup),
+        .rdata_o(rdata_pmu_backup)
     );
 
 endmodule
