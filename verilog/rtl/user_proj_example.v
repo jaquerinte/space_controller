@@ -114,8 +114,8 @@ module user_proj_example #(
 
     // IO
     // IO MODE IO port connected to the 16 last 
-    assign io_out = {12'b0,io_port_out,1'bx,trx,8'b0};
-    assign io_in = {12'b0,io_port_in,rtx,1'bx,8'b0};
+    assign io_out = {12'b0,io_port_out,1'b0,trx,8'b0};
+    assign io_in = {12'b0,io_port_in,rtx,1'b0,8'b0};
     assign io_oeb = {(`MPRJ_IO_PADS-1){1'b0}};
 
     // IRQ

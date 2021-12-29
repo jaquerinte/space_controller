@@ -1,7 +1,7 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1640786015
+timestamp 1640818373
 << obsli1 >>
 rect 1104 2159 158884 157777
 << obsm1 >>
@@ -1224,7 +1224,7 @@ rect 158830 734 159030 856
 rect 159198 734 159306 856
 rect 159474 734 159674 856
 << metal3 >>
-rect 159200 79976 160000 80096
+rect 0 79976 800 80096
 << obsm3 >>
 rect 1577 1803 158128 157793
 << metal4 >>
@@ -2255,7 +2255,7 @@ rlabel metal2 s 131486 0 131542 800 6 la_oenb[99]
 port 500 nsew signal input
 rlabel metal2 s 43902 0 43958 800 6 la_oenb[9]
 port 501 nsew signal input
-rlabel metal3 s 159200 79976 160000 80096 6 user_clock2
+rlabel metal3 s 0 79976 800 80096 6 user_clock2
 port 502 nsew signal input
 rlabel metal4 s 4208 2128 4528 157808 6 vccd1
 port 503 nsew power input

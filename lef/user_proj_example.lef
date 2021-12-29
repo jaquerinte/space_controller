@@ -4020,7 +4020,7 @@ MACRO user_proj_example
     USE SIGNAL ;
     PORT
       LAYER met3 ;
-        RECT 796.000 399.880 800.000 400.480 ;
+        RECT 0.000 399.880 4.000 400.480 ;
     END
   END user_clock2
   PIN vccd1
