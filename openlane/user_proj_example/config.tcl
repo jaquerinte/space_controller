@@ -40,12 +40,22 @@ set ::env(CLOCK_NET) "main_module.PMU_inst_1.clk "
 set ::env(CLOCK_PERIOD) "10"
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 1600 1600"
+set ::env(DIE_AREA) "0 0 800 800"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-set ::env(PL_TARGET_DENSITY) 0.45
+set ::env(PL_TARGET_DENSITY) 0.30
+set ::env(PL_RESIZER_HOLD_SLACK_MARGIN) 0.30
+set ::env(PL_RESIZER_MAX_SLEW_MARGIN) 22
+set ::env(PL_RESIZER_MAX_CAP_MARGIN) 28
+set ::env(PL_RESIZER_HOLD_MAX_BUFFER_PERCENT) 40
+set ::env(PL_TIME_DRIVEN) 1
+
+
+
+
+
 
 # Maximum layer used for routing is metal 4.
 # This is because this macro will be inserted in a top level (user_project_wrapper) 
@@ -61,4 +71,7 @@ set ::env(DIODE_INSERTION_STRATEGY) 4
 # If you're going to use multiple power domains, then disable cvc run.
 set ::env(RUN_CVC) 1
 
-set ::env(ROUTING_CORES) 4
+set ::env(ROUTING_CORES) 6
+
+
+

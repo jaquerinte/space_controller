@@ -39,7 +39,7 @@ set ::env(VERILOG_FILES) "\
 
 ## Clock configurations
 set ::env(CLOCK_PORT) "wb_clk_i"
-set ::env(CLOCK_NET) "mprj.wbs_cyc_i"
+set ::env(CLOCK_NET) "mprj.wb_clk_i"
 
 set ::env(CLOCK_PERIOD) "10"
 
@@ -83,3 +83,9 @@ set ::env(DIODE_INSERTION_STRATEGY) 0
 set ::env(FILL_INSERTION) 0
 set ::env(TAP_DECAP_INSERTION) 0
 set ::env(CLOCK_TREE_SYNTH) 0
+
+set ::env(PL_RESIZER_HOLD_SLACK_MARGIN) 0.30
+set ::env(PL_RESIZER_MAX_SLEW_MARGIN) 22
+set ::env(PL_RESIZER_MAX_CAP_MARGIN) 28
+set ::env(PL_RESIZER_HOLD_MAX_BUFFER_PERCENT) 40
+set ::env(PL_TIME_DRIVEN) 1
