@@ -28,8 +28,8 @@ module io_module #
     parameter IO_OUTPUT_SIZE = 8,
     parameter AUXILIAR_SIZE = 44,
     parameter OUTPUTS = 32,
-    parameter INPUTS = 32,
-    parameter ONE_SECOND_CLOCK = 44'h00007735940
+    parameter INPUTS = 32, 
+    parameter ONE_SECOND_CLOCK = 44'h00005F5E100
 )
 (
     input clk,
