@@ -39,9 +39,9 @@ The UART communication protocol is based on [https://github.com/alexforencich/ve
 This chip uses the UART port for main communication. This communication port is used to send instructions and receive the requested output. 
 The input is a 52 bit word for communication. In order to fill up the word, the values are sent one by one via the UART port.
 The 52 bit are divided in this well defined sections:
-- [51:48] 4 bit operation code.
-- [47:43] 5 bit primary register operation. 
-- [42:0]  43 bit auxiliary values.
+- [51:49] 3 bit operation code.
+- [48:44] 5 bit primary register operation. 
+- [43:0]  44 bit auxiliary values.
 
 As commented, the communication is through the UART port, and each 4 bits are encoded in hex. Since UART uses the ASCII table for the characters, the following list shows the mapping between the ASCII characters and the hex value interpreted by the chip:
 
