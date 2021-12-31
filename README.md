@@ -30,6 +30,10 @@
 <!--![](readme_data/Selection_005.png)-->
 
 ## **Description**
+This design is a radiation tolerant UART server that can be used for low level control of multiple input/output ports during a radiation testing campaign. The system features triple redundancy in order to ensure that the commands are properly executed. </br>
+
+In addition to simulation, the RTL design of the user project is verified also on a Xilinx Zybo Z7-20 FPGA using Vivado.
+The UART communication protocol is based on [https://github.com/alexforencich/verilog-uart](https://github.com/alexforencich/verilog-uart) and its [files](https://github.com/jaquerinte/space_controller/tree/main/verilog/rtl/controller/UART_SERVER) are covered with the same open source license as the rest of the project (MIT).
 
 ## **How To Use The Chip**
 This chip uses the UART port for main communication. This communication port is used to send instructions and receive the requested output. 
