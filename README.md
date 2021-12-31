@@ -32,14 +32,14 @@
 ## **Description**
 
 ## **How To Use The Chip**
-This chip uses the UART port for main communication. This communication port is use to send instructions and receive the requested output. 
-The input is a 52 bit word for communication. In order to fill up the word the values are send one by one via the UART port.
+This chip uses the UART port for main communication. This communication port is used to send instructions and receive the requested output. 
+The input is a 52 bit word for communication. In order to fill up the word, the values are sent one by one via the UART port.
 The 52 bit are divided in this well defined sections:
 - [51:48] 4 bit operation code.
 - [47:43] 5 bit primary register operation. 
 - [42:0]  43 bit auxiliary values.
 
-As commented the communication is throw the UART port, and each 4 bits are codification in hex. Because UART uses the ASCII table for the characters, the following list is the translation between the ASCII characters and the hex value interpreted by the chip:
+As commented, the communication is through the UART port, and each 4 bits are encoded in hex. Since UART uses the ASCII table for the characters, the following list shows the mapping between the ASCII characters and the hex value interpreted by the chip:
 
 
 - 1 ➜ 1
@@ -58,37 +58,37 @@ As commented the communication is throw the UART port, and each 4 bits are codif
 - \> ➜ E  
 - ? ➜ F
 
-The sended data is stored in a shift register, so in order to confirm that the command is fully sended, the ASCII character **0D** (New line) needs to be send. If you want to clear the instruction sended you can send the ASCII character **20** (Space) in order to clear the shift registers. 
+The sent data is buffered in a shift register, so in order to denote the end of the command, the ASCII character **0D** (New line) needs to be sent. If you want to clear the buffered instruction, you can send the ASCII character **20** (Space), which clears the shift register. 
 ### **Instruction Set**
 
 
 #### **IWrite instructions**
 | Type  | Description | OP Code [51:49] | Primary Register [48:44] | Auxillary [43:0] |
 |--|---|---|---|---|
-| IWrite | Write a logic 1 in the selected register <br>and is maintained auxillary number of cycles | 000 | register | cycles |
-| IWrite | Waits 1 Second and writes a logic 1 in <br>the selected selected register and is <br>maintained auxillary number of cycles | 001 | register | cycles |
+| IWrite | Writes a logic 1 in the selected register <br>and is maintains it for the number of cycles denoted by the value of the **Auxillary** field. | 000 | register | cycles |
+| IWrite | Waits 1 Second and writes a logic 1 in <br>the selected selected register. The value is <br>maintained for a number of cycles denoted by the **Auxillary** field. | 001 | register | cycles |
 
 <br><br>
 
 #### **IRead instructions**
 | Type  | Description | OP Code [51:49] | Primary Register [48:44] | Auxillary [43:0] |
 |---|---|---|---|---|
-| IRead | Reads the logic value in the selected register <br>and the read is delayed by auxiliary number of cycles | 100 | register | cycles |
+| IRead | Reads the logic value in the selected register <br>and the read is delayed by **Auxiliary** number of cycles. | 100 | register | cycles |
 
 <br><br>
 
 #### **BWrite instructions**
 | Type  | Description | OP Code [51:49] | Primary Register [48:44] | Auxillary [43:0] |
 |---|---|---|---|---|
-| BWrite | Writes 8 bit value during one clock cycle <br>The register and value are in the auxiliary part | 011 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8] not use<br> [7:0] value for the registers|
-| BWrite | Waits 1 second and writes 8 bit value during one second <br>The register and value are in the auxiliary part | 111 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8] not use<br> [7:0] value for the registers|
+| BWrite | Writes 8 bit value during one clock cycle. <br>The register and value are specified in the **Auxiliary** field. | 011 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8] not used<br> [7:0] value for the registers|
+| BWrite | Waits 1 second and writes 8 bit value during one second. <br>The register and value are specified in the **Auxiliary** field. | 111 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8] not used<br> [7:0] value for the registers|
 
 <br><br>
 
 #### **BRead instructions**
 | Type  | Description | OP Code [51:49] | Primary Register [48:44] | Auxillary [43:0] |
 |---|---|---|---|---|
-| BRrite | Reads  8 bit value during one clock cycle <br>The register and value are in the auxiliary part | 011 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8:0] not use|
+| BRrite | Reads  8 bit value during one clock cycle. <br>The register and value are specified in the **Auxiliary** field. | 011 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8:0] not used|
 ## **Triple Redundancy Implementation**
 
 ## **Block Description**
