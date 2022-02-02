@@ -42,7 +42,7 @@ module user_proj_example #(
         parameter STATUS_SIGNALS = 6,
         parameter DATA_WIDTH = 8,
         parameter BAUD_RATE = 115200,
-        parameter CLOCK_SPEED = 100000000,
+        parameter CLOCK_SPEED = 10000000,
         parameter OUTPUTS = 32,
         parameter INPUTS = 32
 )(
