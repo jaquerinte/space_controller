@@ -29,6 +29,8 @@
 ## **Chip Layout**
 <!--![](readme_data/Selection_005.png)-->
 
+![GDS](docs/space_controller_gds.png)
+
 ## **Description**
 This design is a radiation tolerant UART server that can be used for low level control of multiple input/output ports during a radiation testing campaign. The system features triple redundancy in order to ensure that the commands are properly executed. </br>
 
