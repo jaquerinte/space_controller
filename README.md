@@ -98,7 +98,8 @@ The sent data is buffered in a shift register, so in order to denote the end of 
 ## **Triple Redundancy Implementation**
 
 ## **Block Description**
-
+![](docs/simple_diagram.png)
+![](docs/complex_diagram.png)
 ## **Module Ports**:
 - **Input Ports**
 - **Output Ports**
@@ -114,8 +115,6 @@ The sent data is buffered in a shift register, so in order to denote the end of 
 
 ### **Wishbone Connection**
 
-
-### **User Maskable Interrupt Signals**
 
 
 
