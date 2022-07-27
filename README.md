@@ -95,11 +95,27 @@ The sent data is buffered in a shift register, so in order to denote the end of 
 | Type  | Description | OP Code [51:49] | Primary Register [48:44] | Auxillary [43:0] |
 |---|---|---|---|---|
 | BRrite | Reads  8 bit value during one clock cycle. <br>The register and value are specified in the **Auxiliary** field. | 011 | sel register 7 | [43:39] sel register 6 <br> [38:34] sel register 5 <br> [33:29] sel register 4 <br> [28:24] sel register 3 <br> [23:19] sel register 2 <br> [18:13] sel register 1 <br> [13:9] sel register 0 <br> [8:0] not used|
-## **Triple Redundancy Implementation**
+
 
 ## **Block Description**
 ![](docs/simple_diagram.png)
 ![](docs/complex_diagram.png)
+
+## **Triple Redundancy Implementation**
+As mention previously this deign is targeted for a safety critical systems, with radiations environments. There are two possible routes to take for ensuring that a result is correct in this scenarios, first is to add parity checkers in order to verify that a bit flip has not happen, we explore that solution ECC, in  [Space Shuttle](https://github.com/jaquerinte/caravel_radiation_harden/). This solution can detect and correct a single bit flip or detect a double bit flip, but this could cause to need to re-do a computation, or some extra operation that could cause that we miss a critical deadline.
+
+Another solution is the triplication of a module. This allows us to guaranty that and error happening in one unit will not change the output, and there fiscally different circuits doing the operation. The main drawback of this approach is the extra space  and power that is needed in order to two more replication of the system.
+
+For this project all of the computation is triplicated, so the UART handler, logic control and IO module have separate instances. So how this implemented in verilog can be seen in the file [main_module.v](https://github.com/jaquerinte/space_controller/blob/main/verilog/rtl/controller/main_module.v), in this file we generate three instances of the [control_module.v](https://github.com/jaquerinte/space_controller/blob/main/verilog/rtl/controller/control_module.v). FOr the input is simple in verilog we only need to feed each of the modules with the require inputs, for example the "rx" wire from the UART, and the input signals from the GPIO.
+
+With that each module will process a request and produce and output to the "tx" and/or in the GPIO signals. In order to detect if an error happen we need to implement a majority vote, this means that if two signals agree in one value, that value will be the correct one, independent that the third agrees or not. In order to implement this we use a series of **NAND** gates to create the majority vote as shown  in the following figure.
+
+![](docs/majority_vote.drawio.png)
+
+Another option if using the SkyWater 130 nm PDK is to the [maj3](https://antmicro-skywater-pdk-docs.readthedocs.io/en/test-submodules-in-rtd/contents/libraries/sky130_fd_sc_hd/cells/maj3/README.html) to reduce the number of cells use.
+
+With that we implemented the majority vote, but also in our project is require to monitor when an error is detected, meaning that one of the three modules disagrees or the three have a complete different value. For that 
+
 ## **Module Ports**:
 - **Input Ports**
 - **Output Ports**

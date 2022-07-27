@@ -78,9 +78,9 @@ module main_module #
     assign xor_1_trx  = uart_output_signal_inst_1 ^ uart_output_signal_inst_2;
     assign xor_2_trx  = uart_output_signal_inst_2 ^ uart_output_signal_inst_3;
     assign xor_3_trx  = uart_output_signal_inst_1 ^ uart_output_signal_inst_3;
-    assign xor_reduce_1_trx = |xor_1_trx;
-    assign xor_reduce_2_trx = |xor_2_trx;
-    assign xor_reduce_3_trx = |xor_3_trx;
+    assign xor_reduce_1_trx =  (xor_1_trx & xor_3_trx);
+    assign xor_reduce_2_trx =  (xor_1_trx & xor_2_trx);
+    assign xor_reduce_3_trx =  (xor_2_trx & xor_3_trx);
     //end TRX
 
    
@@ -113,9 +113,9 @@ module main_module #
     assign xor_1_out_io  = output_io_signal_inst_1 ^ output_io_signal_inst_2;
     assign xor_2_out_io  = output_io_signal_inst_2 ^ output_io_signal_inst_3;
     assign xor_3_out_io  = output_io_signal_inst_1 ^ output_io_signal_inst_3;
-    assign xor_reduce_1_out_io = |xor_1_out_io;
-    assign xor_reduce_2_out_io = |xor_2_out_io;
-    assign xor_reduce_3_out_io = |xor_3_out_io;
+    assign xor_reduce_1_out_io = ((|xor_1_out_io) & (|xor_3_out_io));
+    assign xor_reduce_2_out_io = ((|xor_1_out_io) & (|xor_2_out_io));
+    assign xor_reduce_3_out_io = ((|xor_2_out_io) & (|xor_3_out_io));
     // end output_io
     wire ready_pmu; // wire to connect to the PMU
     wire ready_pmu_backup; // wire to connect to the PMU
