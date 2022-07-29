@@ -98,15 +98,42 @@ The sent data is buffered in a shift register, so in order to denote the end of 
 
 
 ## **Block Description**
-![](docs/simple_diagram.png)
-![](docs/complex_diagram.png)
+In the following image we can see a simple block diagram of how the controller interfaces with the caravel harness.
+
+![Block_diagram](docs/simple_diagram.png)
+
+In  simple terms the controller have two major parts, the triplicated logic and the PMU. 
+
+### **Triplicated logic**
+
+Inside of each of the instances of the triplicated logic we have tree distinct modules each one takes care of different functions of the controllers, and more or less, are independent between each of them.
+
+The first module is the **UART Handler** that takes care of the communication throw the UART interface, reading each of the ASCII characters send and processing each of the characters to create one instruction. This module also is able to send data back throw the UART when other modules want to report a value or a state.
+
+The second module is the **Logic Control**, this modules is the central brain of the desing, takes care of decoding the instruction, send commands to the IO module and responses to the UART Handler.  
+
+The last module is the **IO MOdule** that takes the instruction of the logic control, to generate the counter for the times, as well to with I/O needs to be read or write, for one bit operations or 8 bit operations
+
+The following diagram contains more information of how the modules are connected and the internal parts of each one.
+
+![Detailed_diagram](docs/complex_diagram.png)
+
+
+### **PMU Complex**
+
+The PMU complex is similar to the one that is implemented in the [Space Shuttle](https://github.com/jaquerinte/caravel_radiation_harden/) project. In similar trends, is a replicated PMU that monitors the total errors of the IO  and TX wires per instance or the triplicated logic, as well two counters to count any value that does not match a one corrected error on the logic.
+
+These 8 counters are 32 bit counters that can be access throw the wishbone  interface. The primary PMU starts in address 0x3000_0000 and the secondary address starts 0x3001_0000.
+
+
+
 
 ## **Triple Redundancy Implementation**
 As mention previously this deign is targeted for a safety critical systems, with radiations environments. There are two possible routes to take for ensuring that a result is correct in this scenarios, first is to add parity checkers in order to verify that a bit flip has not happen, we explore that solution ECC, in  [Space Shuttle](https://github.com/jaquerinte/caravel_radiation_harden/). This solution can detect and correct a single bit flip or detect a double bit flip, but this could cause to need to re-do a computation, or some extra operation that could cause that we miss a critical deadline.
 
 Another solution is the triplication of a module. This allows us to guaranty that and error happening in one unit will not change the output, and there fiscally different circuits doing the operation. The main drawback of this approach is the extra space  and power that is needed in order to two more replication of the system.
 
-For this project all of the computation is triplicated, so the UART handler, logic control and IO module have separate instances. So how this implemented in verilog can be seen in the file [main_module.v](https://github.com/jaquerinte/space_controller/blob/main/verilog/rtl/controller/main_module.v), in this file we generate three instances of the [control_module.v](https://github.com/jaquerinte/space_controller/blob/main/verilog/rtl/controller/control_module.v). FOr the input is simple in verilog we only need to feed each of the modules with the require inputs, for example the "rx" wire from the UART, and the input signals from the GPIO.
+For this project all of the computation is triplicated, so the UART handler, logic control and IO module have separate instances. So how this implemented in verilog can be seen in the file [main_module.v](https://github.com/jaquerinte/space_controller/blob/main/verilog/rtl/controller/main_module.v), in this file we generate three instances of the [control_module.v](https://github.com/jaquerinte/space_controller/blob/main/verilog/rtl/controller/control_module.v). For the input is simple in verilog we only need to feed each of the modules with the require inputs, for example the "rx" wire from the UART, and the input signals from the GPIO.
 
 With that each module will process a request and produce and output to the "tx" and/or in the GPIO signals. In order to detect if an error happen we need to implement a majority vote, this means that if two signals agree in one value, that value will be the correct one, independent that the third agrees or not. In order to implement this we use a series of **NAND** gates to create the majority vote as shown  in the following figure.
 
@@ -114,35 +141,4 @@ With that each module will process a request and produce and output to the "tx" 
 
 Another option if using the SkyWater 130 nm PDK is to the [maj3](https://antmicro-skywater-pdk-docs.readthedocs.io/en/test-submodules-in-rtd/contents/libraries/sky130_fd_sc_hd/cells/maj3/README.html) to reduce the number of cells use.
 
-With that we implemented the majority vote, but also in our project is require to monitor when an error is detected, meaning that one of the three modules disagrees or the three have a complete different value. For that 
-
-## **Module Ports**:
-- **Input Ports**
-- **Output Ports**
-
-## **Caravel Connections**
-
-### **GPIO Connections**
-
-### **Logic Analyzer Probes**
-- Input probes: 
-  
-- Output probes:
-
-### **Wishbone Connection**
-
-
-
-
-## **Description of the Modules**
-
-### **Module List**
-
-
-## **Wishbone Description**
-
- ### **Memory Map**
-
- ### **Software Example**
-
-## **Available Tests**
+With that we implemented the majority vote, but also in our project is require to monitor when an error is detected, meaning that one of the three modules disagrees or the three have a complete different value ( in the case of more than one bit ). For that we use a combination of **XOR** of each par of outputs and then are pass to and **AND** gate to identify in a module has different output from the other two.
